@@ -3,6 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const { removeBackground } = require('@imgly/background-removal-node');
 const { Jimp } = require('jimp');
+const { upscaleHybrid } = require('./upscale_hybrid.cjs');
 
 const PROGRESS_FILE = 'progress.json';
 const BATCH_LIMIT = 50;
@@ -45,11 +46,10 @@ async function processImage(handle, url) {
             console.log(`[${handle}] Background removed and keyline added.`);
         }
 
-        // 3. Upscale using Real-ESRGAN
+        // 3. Upscale using Hybrid System (Vector-first / AI fallback)
         if (!fs.existsSync(upscaledPath)) {
-            console.log(`[${handle}] Upscaling 4x...`);
-            const cmd = `"${ESCAN_PATH}" -i "${bgRemovedPath}" -o "${upscaledPath}" -n realesrgan-x4plus`;
-            execSync(cmd, { stdio: 'inherit' });
+            console.log(`[${handle}] Upscaling via Hybrid Pipeline...`);
+            await upscaleHybrid(bgRemovedPath, upscaledPath);
             console.log(`[${handle}] Upscale complete.`);
         }
 

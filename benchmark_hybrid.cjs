@@ -16,8 +16,8 @@ async function runBenchmark() {
     console.log(`Hardware: Intel UHD 630 / i5-9400`);
     console.log(`Target: 3000px Wide (Print Quality)\n`);
 
-    // 1. COMPACT ANIME MODEL (animevideov3) - EXPECTED WINNER
-    testAI('Fast-Anime-v3', 'realesr-animevideov3');
+    // 1. COMPACT ANIME MODEL (animevideov3) - Redirected via rename
+    testAI('Fast-Anime-v3', 'esrgan-x4');
 
     // 3. HIGH-QUALITY ANIME MODEL (x4plus-anime)
     testAI('Ultra-Anime-Plus', 'realesrgan-x4plus-anime');
